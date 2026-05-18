@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>PizzaExpress Quick Review</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Roboto',sans-serif;
+    background:#111;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    color:#fff;
+}
+
+.container{
+    width:100%;
+    max-width:430px;
+    background:#1b1b1b;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 10px 35px rgba(0,0,0,0.45);
+    animation:fadeIn .4s ease;
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.logo h1{
+    font-size:28px;
+    font-weight:700;
+}
+
+.logo p{
+    color:#aaa;
+    font-size:14px;
+    margin-top:5px;
+}
+
+.section{
+    margin-top:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    color:#ddd;
+}
+
+.rating{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-top:8px;
+}
+
+.star{
+    font-size:38px;
+    cursor:pointer;
+    color:#444;
+    transition:.2s;
+    user-select:none;
+}
+
+.star:hover{
+    transform:scale(1.18);
+}
+
+.star.active{
+    color:#FFD700;
+}
+
+select,
+textarea{
+    width:100%;
+    border:none;
+    outline:none;
+    border-radius:14px;
+    padding:14px;
+    background:#2b2b2b;
+    color:#fff;
+    font-size:15px;
+}
+
+textarea{
+    min-height:120px;
+    resize:none;
+    line-height:1.5;
+}
+
+.counter{
+    text-align:right;
+    font-size:12px;
+    color:#999;
+    margin-top:6px;
+}
+
+.upload-box{
+    border:2px dashed #444;
+    border-radius:16px;
+    padding:18px;
+    text-align:center;
+    background:#242424;
+}
+
+.upload-box:hover{
+    border-color:#e23744;
+}
+
+input[type="file"]{
+    margin-top:10px;
+    color:#ddd;
+    width:100%;
+}
+
+.preview-wrapper{
+    margin-top:15px;
+}
+
+.preview{
+    width:100%;
+    border-radius:14px;
+    object-fit:cover;
+    max-height:220px;
+}
+
+.buttons{
+    margin-top:20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+button{
+    border:none;
+    padding:15px;
+    border-radius:14px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.google-btn{
+    background:#fff;
+    color:#000;
+}
+
+.zomato-btn{
+    background:#e23744;
+    color:#fff;
+}
+
+.status{
+    margin-top:15px;
+    padding:12px;
+    background:#202020;
+    border-radius:14px;
+    font-size:13px;
+    color:#ddd;
+}
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#1f1f1f;
+    color:#fff;
+    padding:12px 18px;
+    border-radius:12px;
+    font-size:14px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+    bottom:35px;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media(max-width:480px){
+
+    .container{
+        padding:20px;
+    }
+
+    .star{
+        font-size:34px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        <h1>Quick Review</h1>
+        <p>Share your experience with us</p>
+    </div>
+
+    <div class="section">
+        <label>Rate Your Experience</label>
+
+        <div class="rating">
+
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <label>Select Staff</label>
+
+        <select id="staff">
+
+            <option value="">Choose Staff</option>
+            <option>Sana</option>
+            <option>Kamana</option>
+            <option>Rahul</option>
+            <option>Nikhil</option>
+            <option>Yaseen</option>
+            <option>Vaibhav</option>
+            <option>Swapnil</option>
+            <option>Amandeep</option>
+
+        </select>
+    </div>
+
+    <div class="section">
+
+        <label>Your Review</label>
+
+        <textarea
+            id="review"
+            maxlength="300"
+            placeholder="Your review will appear here..."
+        ></textarea>
+
+        <div class="counter">
+            <span id="charCount">0</span>/300
+        </div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="upload-box">
+
+            <div>📸 Upload Food / Experience Photo</div>
+
+            <input type="file" id="photo" accept="image/*">
+
+            <div class="preview-wrapper" id="preview"></div>
+
+        </div>
+
+    </div>
+
+    <div class="buttons">
+
+        <button class="google-btn" id="googleBtn">
+            ⭐ Post on Google
+        </button>
+
+        <button class="zomato-btn" id="zomatoBtn">
+            🍽️ Post on Zomato
+        </button>
+
+    </div>
+
+    <div class="status" id="status">
+        Ready to generate review.
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+const stars = document.querySelectorAll('.star');
+const reviewBox = document.getElementById('review');
+const staffSelect = document.getElementById('staff');
+const charCount = document.getElementById('charCount');
+const toast = document.getElementById('toast');
+const statusBox = document.getElementById('status');
+
+let rating = 0;
+
+stars.forEach((star,index)=>{
+
+    star.addEventListener('click',()=>{
+
+        rating = index + 1;
+
+        updateStars();
+        generateReview();
+
+    });
+
+});
+
+function updateStars(){
+
+    stars.forEach((star,index)=>{
+
+        if(index < rating){
+            star.classList.add('active');
+        }else{
+            star.classList.remove('active');
+        }
+
+    });
+
+}
+
+function generateReview(){
+
+    const staff = staffSelect.value;
+
+    if(!staff || rating === 0) return;
+
+    const positive = [
+        `Amazing experience! ${staff} was very friendly and attentive.`,
+        `${staff} provided excellent service. Loved the food and ambience.`,
+        `Fantastic hospitality from ${staff}. Highly recommended.`,
+        `Really enjoyed the service by ${staff}. Great food quality.`
+    ];
+
+    const medium = [
+        `Good experience overall. ${staff} was helpful.`,
+        `Food was nice and service was decent.`,
+        `${staff} handled everything professionally.`
+    ];
+
+    const negative = [
+        `Service could improve a little.`,
+        `Average experience overall.`,
+        `${staff} tried helping but service was slightly slow.`
+    ];
+
+    let selected = "";
+
+    if(rating >= 4){
+
+        selected = positive[Math.floor(Math.random()*positive.length)];
+
+    }else if(rating === 3){
+
+        selected = medium[Math.floor(Math.random()*medium.length)];
+
+    }else{
+
+        selected = negative[Math.floor(Math.random()*negative.length)];
+
+    }
+
+    reviewBox.value = selected;
+
+    updateCounter();
+
+}
+
+staffSelect.addEventListener('change',generateReview);
+
+reviewBox.addEventListener('input',updateCounter);
+
+function updateCounter(){
+
+    charCount.innerText = reviewBox.value.length;
+
+}
+
+document.getElementById('photo').addEventListener('change',function(e){
+
+    const file = e.target.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event){
+
+        document.getElementById('preview').innerHTML =
+        `<img src="${event.target.result}" class="preview">`;
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+function showToast(message){
+
+    toast.innerText = message;
+
+    toast.classList.add('show');
+
+    setTimeout(()=>{
+
+        toast.classList.remove('show');
+
+    },2500);
+
+}
+
+async function copyReview(){
+
+    const text = reviewBox.value.trim();
+
+    if(!text){
+
+        showToast("Generate review first");
+        return false;
+
+    }
+
+    try{
+
+        await navigator.clipboard.writeText(text);
+
+        return true;
+
+    }catch{
+
+        showToast("Clipboard blocked");
+        return false;
+
+    }
+
+}
+
+document.getElementById('googleBtn').addEventListener('click',async()=>{
+
+    const copied = await copyReview();
+
+    if(copied){
+
+        statusBox.innerText = "Review copied. Opening Google...";
+
+        window.open(
+            "https://search.google.com/local/writereview?placeid=ChIJ-QAAQObH5zsRrDxQZOGu0ds",
+            "_blank"
+        );
+
+        showToast("Copied to clipboard");
+
+    }
+
+});
+
+document.getElementById('zomatoBtn').addEventListener('click',async()=>{
+
+    const copied = await copyReview();
+
+    if(copied){
+
+        statusBox.innerText = "Review copied. Opening Zomato...";
+
+        window.open(
+            "https://link.zomato.com/xqzv/rshare?id=1328489136fbb945d",
+            "_blank"
+        );
+
+        showToast("Copied to clipboard");
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
